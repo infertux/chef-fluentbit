@@ -1,0 +1,19 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: debian
+    driver_config:
+      use_sudo: false
+
+suites:
+  - name: default
+    run_list:
+      - recipe[fluentbit::default]
