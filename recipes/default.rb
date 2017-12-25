@@ -3,15 +3,26 @@
 # Recipe:: default
 #
 
-package %w[make cmake g++]
-
 remote_file "#{Chef::Config[:file_cache_path]}/#{node['fluentbit']['archive']}" do
   source node['fluentbit']['url']
   checksum node['fluentbit']['checksum']
   owner 'root'
   group 'root'
   mode '0644'
+  notifies :install, 'package[install_dependencies]', :immediately
   notifies :run, 'bash[install_fluentbit]', :immediately
+  notifies :purge, 'package[uninstall_dependencies]', :immediately
+end
+
+package 'install_dependencies' do
+  action :nothing
+  package_name node['fluentbit']['dependencies']
+end
+
+package 'uninstall_dependencies' do
+  action :nothing
+  package_name node['fluentbit']['dependencies']
+  only_if { node['fluentbit']['uninstall_dependencies'] }
 end
 
 bash 'install_fluentbit' do
@@ -24,9 +35,10 @@ bash 'install_fluentbit' do
     tar xf #{node['fluentbit']['archive']}
     cd fluent-bit-#{node['fluentbit']['version']}/build
     cmake ..
-    make
+    make #{node['fluentbit']['make_flags']}
     install --strip -m 0755 -t #{node['fluentbit']['install_dir']} bin/fluent-bit
   BASH
+  notifies :restart, 'systemd_unit[fluent-bit.service]'
 end
 
 directory node['fluentbit']['conf_dir'] do
@@ -40,6 +52,7 @@ template "#{node['fluentbit']['conf_dir']}/fluent-bit.conf" do
   owner 'root'
   group 'root'
   mode '0400'
+  notifies :restart, 'systemd_unit[fluent-bit.service]'
 end
 
 template "#{node['fluentbit']['conf_dir']}/_service.conf" do
@@ -47,6 +60,7 @@ template "#{node['fluentbit']['conf_dir']}/_service.conf" do
   group 'root'
   mode '0400'
   variables(conf: node['fluentbit']['conf'])
+  notifies :restart, 'systemd_unit[fluent-bit.service]'
 end
 
 systemd_unit 'fluent-bit.service' do
@@ -65,7 +79,7 @@ systemd_unit 'fluent-bit.service' do
     WantedBy=multi-user.target
   UNIT
 
-  subscribes :restart, "template[#{node['fluentbit']['conf_dir']}/fluent-bit.conf]"
   action %i[create enable]
+  notifies :restart, 'systemd_unit[fluent-bit.service]'
   only_if 'test -f /bin/systemctl && /bin/systemctl' # XXX: skip with Docker
 end

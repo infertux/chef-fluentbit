@@ -1,4 +1,3 @@
-property :name, String, required: true, name_property: true
 property :content, String, required: true
 
 default_action :create
@@ -38,7 +37,7 @@ action :delete do
       line = include_line new_resource
 
       conf = Chef::Util::FileEdit.new("#{node['fluentbit']['conf_dir']}/fluent-bit.conf")
-      conf.search_file_delete_file(/\A#{line}/)
+      conf.search_file_delete_line(/\A#{line}/)
       conf.write_file
     end
   end
