@@ -1,25 +1,2 @@
-[SERVICE]
-    # Flush
-    # =====
-    # Set an interval of seconds before to flush records to a destination
-    Flush        <%= @conf.fetch('Flush') %>
+@INCLUDE _service.conf
 
-    # Daemon
-    # ======
-    # Instruct Fluent Bit to run in foreground or background mode.
-    Daemon       <%= @conf.fetch('Daemon') %>
-
-    # Log_Level
-    # =========
-    # Set the verbosity level of the service, values can be:
-    #
-    # - error
-    # - warning
-    # - info
-    # - debug
-    # - trace
-    #
-    # By default 'info' is set, that means it includes 'error' and 'warning'.
-    Log_Level    <%= @conf.fetch('Log_Level') %>
-
-@INCLUDE *.conf

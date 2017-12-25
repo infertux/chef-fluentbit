@@ -21,7 +21,7 @@ bash 'install_fluentbit' do
   cwd Chef::Config[:file_cache_path]
   code <<-BASH
     set -eux
-    tar xvf #{node['fluentbit']['archive']}
+    tar xf #{node['fluentbit']['archive']}
     cd fluent-bit-#{node['fluentbit']['version']}/build
     cmake ..
     make
@@ -36,6 +36,13 @@ directory node['fluentbit']['conf_dir'] do
 end
 
 template "#{node['fluentbit']['conf_dir']}/fluent-bit.conf" do
+  action :create_if_missing
+  owner 'root'
+  group 'root'
+  mode '0400'
+end
+
+template "#{node['fluentbit']['conf_dir']}/_service.conf" do
   owner 'root'
   group 'root'
   mode '0400'
@@ -51,7 +58,7 @@ systemd_unit 'fluent-bit.service' do
 
     [Service]
     Type=simple
-    ExecStart=#{node['fluentbit']['install_dir']}/fluent-bit
+    ExecStart=#{node['fluentbit']['install_dir']}/fluent-bit --config #{node['fluentbit']['conf_dir']}/fluent-bit.conf
     Restart=always
 
     [Install]
@@ -59,6 +66,6 @@ systemd_unit 'fluent-bit.service' do
   UNIT
 
   subscribes :restart, "template[#{node['fluentbit']['conf_dir']}/fluent-bit.conf]"
-  action %i[create enable start]
+  action %i[create enable]
   only_if 'test -f /bin/systemctl && /bin/systemctl' # XXX: skip with Docker
 end

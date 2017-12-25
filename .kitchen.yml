@@ -17,3 +17,8 @@ suites:
   - name: default
     run_list:
       - recipe[fluentbit::default]
+      - recipe[fluentbit::_example]
+    attributes:
+      fluentbit:
+        conf:
+          Daemon: "On"

@@ -10,7 +10,8 @@ control 'fluentbit-1' do
     it { should be_file }
   end
 
-  describe command('fluent-bit') do
-    it { should exist }
+  describe command('fluent-bit --config /etc/fluent-bit/fluent-bit.conf') do
+    its('stdout') { should match 'Fluent-Bit' }
+    its('stderr') { should match 'switching to background mode' }
   end
 end
