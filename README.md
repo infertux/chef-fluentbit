@@ -1,8 +1,12 @@
 # fluentbit cookbook
 
+[![Build Status](https://travis-ci.org/infertux/chef-fluentbit.svg?branch=master)](https://travis-ci.org/infertux/chef-fluentbit)
+
+## Recipe `default`
+
 The recipe `fluentbit::default` installs [Fluent Bit](http://fluentbit.io).
 
-## Usage
+You can add custom configuration with the `fluentbit_conf` helper:
 
 ```ruby
 fluentbit_conf 'example' do
@@ -18,7 +22,11 @@ fluentbit_conf 'example' do
 end
 ```
 
-### How to generate certificate
+## Recipe `forward`
+
+A simple generic recipe is available to set up forwarding to another Fluent Bit or Fluentd host.
+
+### How to generate certificate for secure forwarding
 
 Run this locally: `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 3650`
 
