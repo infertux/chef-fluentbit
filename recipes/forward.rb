@@ -28,12 +28,14 @@ fluentbit_conf 'forward' do
         Name   systemd
         Tag    #{node['fluentbit']['forward']['tag_prefix']}systemd
 
-    [INPUT]
-        Name   tail
-        Path   /var/log/monit.log
-        Tag    #{node['fluentbit']['forward']['tag_prefix']}monit
-        Parser monit
-        DB     /var/run/fluent-bit/monit.db
+    # XXX: Example with Monit:
+    #
+    # [INPUT]
+    #     Name   tail
+    #     Path   /var/log/monit.log
+    #     Tag    #{node['fluentbit']['forward']['tag_prefix']}monit
+    #     Parser monit
+    #     DB     /var/run/fluent-bit/monit.db
 
     [OUTPUT]
         Name            forward
@@ -46,6 +48,8 @@ fluentbit_conf 'forward' do
         tls.verify      Off # don't check CA since it's a self-signed cert
         tls.ca_file    #{node['fluentbit']['conf_dir']}/cert.pem
 
+    # XXX: Uncomment to debug
+    #
     # [OUTPUT]
     #     Name  stdout
     #     Match **
