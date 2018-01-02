@@ -18,6 +18,13 @@ fluentbit_conf 'example' do
 end
 ```
 
+### How to generate certificate
+
+Run this locally: `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 3650`
+
+Give it a password.
+CN can be left blank.
+
 ## License
 
 MIT

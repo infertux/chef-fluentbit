@@ -55,6 +55,13 @@ template "#{node['fluentbit']['conf_dir']}/fluent-bit.conf" do
   notifies :restart, 'systemd_unit[fluent-bit.service]'
 end
 
+template "#{node['fluentbit']['conf_dir']}/parsers.conf" do
+  owner 'root'
+  group 'root'
+  mode '0400'
+  notifies :restart, 'systemd_unit[fluent-bit.service]'
+end
+
 template "#{node['fluentbit']['conf_dir']}/_service.conf" do
   owner 'root'
   group 'root'
