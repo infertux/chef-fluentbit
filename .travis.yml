@@ -8,5 +8,8 @@ rvm:
   - 2.5.0
   - 2.4.3
   - 2.3.6
+before_install:
+  - gem update --system # https://github.com/travis-ci/travis-ci/issues/8978
+  - gem --version
 script:
   - bundle exec rake
