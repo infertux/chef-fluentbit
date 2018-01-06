@@ -11,7 +11,7 @@ file "#{node['fluentbit']['conf_dir']}/cert.pem" do
   notifies :restart, 'systemd_unit[fluent-bit.service]'
 end
 
-directory '/var/run/fluent-bit' do
+directory '/var/lib/fluent-bit' do
   owner 'root'
   group 'root'
   mode '0755'
@@ -35,7 +35,7 @@ fluentbit_conf 'forward' do
     #     Path   /var/log/monit.log
     #     Tag    #{node['fluentbit']['forward']['tag_prefix']}monit
     #     Parser monit
-    #     DB     /var/run/fluent-bit/monit.db
+    #     DB     /var/lib/fluent-bit/monit.db
 
     [OUTPUT]
         Name            forward
