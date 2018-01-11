@@ -6,6 +6,10 @@ control 'fluentbit-1' do
     it { should be_file }
   end
 
+  describe file('/etc/fluent-bit/parsers-foo.conf') do
+    it { should be_file }
+  end
+
   describe file('/usr/local/bin/fluent-bit') do
     it { should be_file }
   end

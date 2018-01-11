@@ -9,3 +9,13 @@ fluentbit_conf 'example' do
         Match *
   CONF
 end
+
+fluentbit_conf 'foo' do
+  type :parser
+  content <<-CONF.gsub(/^[ ]{4}/, '')
+    [PARSER]
+        Name   foo
+        Format regex
+        Regex  ^(?<foo>[^ ]*) [^ ]*$
+  CONF
+end

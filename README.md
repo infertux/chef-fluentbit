@@ -22,6 +22,20 @@ fluentbit_conf 'example' do
 end
 ```
 
+You can add custom parsers by setting `type :parser`:
+
+```ruby
+fluentbit_conf 'foo' do
+  type :parser
+  content <<-CONF.gsub(/^[ ]{4}/, '')
+    [PARSER]
+        Name   foo
+        Format regex
+        Regex  ^(?<foo>[^ ]*) [^ ]*$
+  CONF
+end
+```
+
 ## Recipe `forward`
 
 A simple generic recipe is available to set up forwarding to another Fluent Bit or Fluentd host.

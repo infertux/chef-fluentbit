@@ -33,9 +33,9 @@ fluentbit_conf 'forward' do
     # [INPUT]
     #     Name   tail
     #     Path   /var/log/monit.log
+    #     DB     /var/lib/fluent-bit/monit.db
     #     Tag    #{node['fluentbit']['forward']['tag_prefix']}monit
     #     Parser monit
-    #     DB     /var/lib/fluent-bit/monit.db
 
     [OUTPUT]
         Name            forward
