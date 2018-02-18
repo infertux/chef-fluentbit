@@ -63,6 +63,7 @@ template "#{node['fluentbit']['conf_dir']}/parsers.conf" do
 end
 
 template "#{node['fluentbit']['conf_dir']}/_service.conf" do
+  action :create_if_missing
   owner 'root'
   group 'root'
   mode '0400'
