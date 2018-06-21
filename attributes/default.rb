@@ -1,5 +1,5 @@
-default['fluentbit']['version'] = '0.12.11'
-default['fluentbit']['checksum'] = 'a1d87094b45349e282d16907e2b4514b6f496e2cc569d85519d294621cbd1663'
+default['fluentbit']['version'] = '0.13.4'
+default['fluentbit']['checksum'] = '0b18399c2fff97ecc2ba7164708da4bba10da58c362e627e26885900d9f7f030'
 default['fluentbit']['archive'] = "fluent-bit-#{default['fluentbit']['version']}.tar.gz"
 default['fluentbit']['url'] = "http://fluentbit.io/releases/#{default['fluentbit']['version'].split('.')[0..-2].join('.')}/#{default['fluentbit']['archive']}"
 
