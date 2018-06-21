@@ -87,7 +87,7 @@ systemd_unit 'fluent-bit.service' do
     WantedBy=multi-user.target
   UNIT
 
-  action %i[create enable]
+  action %i(create enable)
   notifies :restart, 'systemd_unit[fluent-bit.service]'
   only_if 'test -f /bin/systemctl && /bin/systemctl' # XXX: skip with Docker
 end

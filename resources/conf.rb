@@ -1,5 +1,5 @@
 property :content, String, required: true
-property :type, Symbol, required: false, default: :conf, equal_to: %i[conf parser]
+property :type, Symbol, required: false, default: :conf, equal_to: %i(conf parser)
 
 default_action :create
 
