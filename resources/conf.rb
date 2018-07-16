@@ -42,14 +42,15 @@ action :create do
     notifies :restart, 'systemd_unit[fluent-bit.service]'
   end
 
-  ruby_block "append #{include_line new_resource}" do
-    block do
-      line = include_line new_resource
+  line = include_line new_resource
+  file = include_file new_resource
 
-      conf = Chef::Util::FileEdit.new(include_file(new_resource))
-      conf.insert_line_if_no_match(/\A#{line}/, line)
-      conf.write_file
-    end
+  execute "append #{line}" do
+    user 'root'
+    group 'root'
+    not_if "grep -E '^#{line}' #{file}"
+    command "echo '#{line}' >> #{file}"
+    notifies :restart, 'systemd_unit[fluent-bit.service]'
   end
 end
 

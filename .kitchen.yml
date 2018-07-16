@@ -4,6 +4,10 @@ driver:
 
 provisioner:
   name: chef_zero
+  product_name: chef
+  deprecations_as_errors: true
+  multiple_converge: 2
+  enforce_idempotency: true
 
 verifier:
   name: inspec
