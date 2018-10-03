@@ -20,7 +20,7 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[fluentbit::default]
+      - recipe[fluentbit::install]
       - recipe[fluentbit::_example]
     attributes:
       fluentbit:
