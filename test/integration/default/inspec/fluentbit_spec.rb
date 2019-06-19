@@ -15,7 +15,7 @@ control 'fluentbit-1' do
   end
 
   describe command('fluent-bit --config /etc/fluent-bit/fluent-bit.conf') do
-    its('stdout') { should match 'Fluent-Bit' }
+    its('stderr') { should match 'Fluent Bit' }
     its('stderr') { should match 'switching to background mode' }
   end
 end

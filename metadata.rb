@@ -7,6 +7,6 @@ source_url       'https://github.com/infertux/chef-fluentbit'
 issues_url       'https://github.com/infertux/chef-fluentbit/issues'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.1.0'
-chef_version     '>= 13.0'
+chef_version     '>= 14.0'
 
 supports 'debian'
