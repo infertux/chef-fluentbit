@@ -22,6 +22,7 @@ end
 package 'uninstall_dependencies' do
   action :nothing
   package_name node['fluentbit']['dependencies']
+  options '--auto-remove'
   only_if { node['fluentbit']['uninstall_dependencies'] }
 end
 

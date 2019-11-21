@@ -18,4 +18,9 @@ control 'fluentbit-1' do
     its('stderr') { should match 'Fluent Bit' }
     its('stderr') { should match 'switching to background mode' }
   end
+
+  describe package('cmake-data') do
+    # XXX: Make sure we auto-remove dependencies of the build dependencies
+    it { should_not be_installed }
+  end
 end
