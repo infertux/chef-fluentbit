@@ -6,7 +6,7 @@ description      'Installs and configures Fluent Bit'
 source_url       'https://github.com/infertux/chef-fluentbit'
 issues_url       'https://github.com/infertux/chef-fluentbit/issues'
 
-version          '1.3.2'
+version          '1.3.10'
 chef_version     '>= 14.0'
 
 supports 'debian'
