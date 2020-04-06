@@ -1,6 +1,6 @@
 # XXX: see https://fluentbit.io/download/ for latest version
-default['fluentbit']['version'] = '1.3.10'
-default['fluentbit']['checksum'] = '3f9f7c10f74a49ee52efa7c9f3b9993540b1ab38b68e3dc60001d87b0aa5b385'
+default['fluentbit']['version'] = '1.4.2'
+default['fluentbit']['checksum'] = '97517c4642bb07c848c25c4a86c72219f91104a0f20a1e9b9cd74c6a3db1a011'
 default['fluentbit']['archive'] = "fluent-bit-#{default['fluentbit']['version']}.tar.gz"
 default['fluentbit']['url'] = "https://fluentbit.io/releases/#{default['fluentbit']['version'].split('.')[0..-2].join('.')}/#{default['fluentbit']['archive']}"
 
