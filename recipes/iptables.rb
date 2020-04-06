@@ -1,5 +1,5 @@
 fluentbit_conf 'iptables' do
-  content <<-CONF.gsub(/^[ ]{4}/, '')
+  content <<~CONF
     [INPUT]
         Name   tail
         Path   /var/log/iptables.log

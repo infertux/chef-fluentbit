@@ -10,7 +10,7 @@ You can add custom configuration with the `fluentbit_conf` helper:
 
 ```ruby
 fluentbit_conf 'example' do
-  content <<-CONF.gsub(/^[ ]{4}/, '')
+  content <<~CONF
     [INPUT]
         Name  cpu
         Tag   cpu
@@ -27,7 +27,7 @@ You can add custom parsers by setting `type :parser`:
 ```ruby
 fluentbit_conf 'foo' do
   type :parser
-  content <<-CONF.gsub(/^[ ]{4}/, '')
+  content <<~CONF
     [PARSER]
         Name   foo
         Format regex

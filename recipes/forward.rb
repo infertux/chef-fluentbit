@@ -19,7 +19,7 @@ directory '/var/lib/fluent-bit' do
 end
 
 fluentbit_conf 'forward' do
-  content <<-CONF.gsub(/^[ ]{4}/, '')
+  content <<~CONF
     [INPUT]
         Name   kmsg
         Tag    #{node['fluentbit']['forward']['tag_prefix']}kmsg

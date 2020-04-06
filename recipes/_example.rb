@@ -1,5 +1,5 @@
 fluentbit_conf 'example' do
-  content <<-CONF.gsub(/^[ ]{4}/, '')
+  content <<~CONF
     [INPUT]
         Name  cpu
         Tag   cpu
@@ -12,7 +12,7 @@ end
 
 fluentbit_conf 'foo' do
   type :parser
-  content <<-CONF.gsub(/^[ ]{4}/, '')
+  content <<~CONF
     [PARSER]
         Name   foo
         Format regex
