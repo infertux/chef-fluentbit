@@ -25,9 +25,9 @@ end
 
 def conf_file(resource)
   case resource.type
-  when :conf then
+  when :conf
     "#{node['fluentbit']['conf_dir']}/#{resource.name}.conf"
-  when :parser then
+  when :parser
     "#{node['fluentbit']['conf_dir']}/parsers-#{resource.name}.conf"
   else raise
   end
