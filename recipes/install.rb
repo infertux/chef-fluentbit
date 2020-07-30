@@ -90,5 +90,5 @@ systemd_unit 'fluent-bit.service' do
 
   action %i(create enable)
   notifies :restart, 'systemd_unit[fluent-bit.service]'
-  only_if 'test -f /bin/systemctl && /bin/systemctl' # XXX: skip with Docker
+  only_if { node['init_package'] == 'systemd' } # XXX: skip with Docker
 end
