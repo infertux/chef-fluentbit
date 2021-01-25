@@ -7,7 +7,6 @@ end
 
 group :style do
   gem 'cookstyle'
-  gem 'foodcritic'
 end
 
 group :test do
