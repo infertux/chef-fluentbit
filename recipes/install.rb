@@ -35,7 +35,7 @@ bash 'install_fluentbit' do
     set -eux
     tar xf #{node['fluentbit']['archive']}
     cd fluent-bit-#{node['fluentbit']['version']}/build
-    cmake ..
+    cmake .. #{node['fluentbit']['cmake_flags']}
     make #{node['fluentbit']['make_flags']}
     install --strip -m 0755 -t #{node['fluentbit']['install_dir']} bin/fluent-bit
   BASH

@@ -1,6 +1,8 @@
 ---
 driver:
   name: docker
+  driver_config:
+    use_sudo: false
 
 provisioner:
   name: chef_zero
@@ -15,8 +17,8 @@ verifier:
 
 platforms:
   - name: debian
-    driver_config:
-      use_sudo: false
+  - name: ubuntu
+  - name: ubuntu-18.04
 
 suites:
   - name: default

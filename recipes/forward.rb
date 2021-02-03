@@ -25,8 +25,9 @@ fluentbit_conf 'forward' do
         Tag    #{node['fluentbit']['forward']['tag_prefix']}kmsg
 
     [INPUT]
-        Name   systemd
-        Tag    #{node['fluentbit']['forward']['tag_prefix']}systemd
+        Name            systemd
+        Tag             #{node['fluentbit']['forward']['tag_prefix']}systemd
+        Read_From_Tail  On
 
     # XXX: Example with Monit:
     #

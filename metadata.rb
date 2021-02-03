@@ -10,3 +10,4 @@ version          '1.4.2'
 chef_version     '>= 14.0'
 
 supports 'debian'
+supports 'ubuntu'
