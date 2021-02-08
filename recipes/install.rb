@@ -3,64 +3,24 @@
 # Recipe:: install
 #
 
-remote_file "#{Chef::Config[:file_cache_path]}/#{node['fluentbit']['archive']}" do
-  source node['fluentbit']['url']
-  checksum node['fluentbit']['checksum']
-  owner 'root'
-  group 'root'
-  mode '0644'
-  notifies :install, 'package[install_dependencies]', :immediately
-  notifies :run, 'bash[install_fluentbit]', :immediately
-  notifies :purge, 'package[uninstall_dependencies]', :immediately
-end
+include_recipe "#{cookbook_name}::install_package" if node['fluentbit']['install_mode'] == 'package'
+include_recipe "#{cookbook_name}::install_source" if node['fluentbit']['install_mode'] == 'source'
 
-package 'install_dependencies' do
-  action :nothing
-  package_name node['fluentbit']['dependencies']
-end
-
-package 'uninstall_dependencies' do
-  action :nothing
-  package_name node['fluentbit']['dependencies']
-  options '--auto-remove'
-  only_if { node['fluentbit']['uninstall_dependencies'] }
-end
-
-bash 'install_fluentbit' do
-  action :nothing
-  user 'root'
-  group 'root'
-  cwd Chef::Config[:file_cache_path]
-  code <<-BASH
-    set -eux
-    tar xf #{node['fluentbit']['archive']}
-    cd fluent-bit-#{node['fluentbit']['version']}/build
-    cmake .. #{node['fluentbit']['cmake_flags']}
-    make #{node['fluentbit']['make_flags']}
-    install --strip -m 0755 -t #{node['fluentbit']['install_dir']} bin/fluent-bit
-  BASH
-  notifies :restart, 'systemd_unit[fluent-bit.service]'
-end
-
-directory node['fluentbit']['conf_dir'] do
-  owner 'root'
-  group 'root'
-  mode '0755'
-end
-
-template "#{node['fluentbit']['conf_dir']}/fluent-bit.conf" do
+template "#{node['fluentbit']['conf_dir']}/#{node['fluentbit']['service_name']}.conf" do
   action :create_if_missing
+  source 'fluent-bit.conf.erb'
   owner 'root'
   group 'root'
   mode '0400'
-  notifies :restart, 'systemd_unit[fluent-bit.service]'
+  notifies :restart, "service[#{node['fluentbit']['service_name']}]"
 end
 
 template "#{node['fluentbit']['conf_dir']}/parsers.conf" do
+  action :create
   owner 'root'
   group 'root'
   mode '0400'
-  notifies :restart, 'systemd_unit[fluent-bit.service]'
+  notifies :restart, "service[#{node['fluentbit']['service_name']}]"
 end
 
 template "#{node['fluentbit']['conf_dir']}/_service.conf" do
@@ -69,10 +29,10 @@ template "#{node['fluentbit']['conf_dir']}/_service.conf" do
   group 'root'
   mode '0400'
   variables(conf: node['fluentbit']['conf'])
-  notifies :restart, 'systemd_unit[fluent-bit.service]'
+  notifies :restart, "service[#{node['fluentbit']['service_name']}]"
 end
 
-systemd_unit 'fluent-bit.service' do
+systemd_unit node['fluentbit']['service_name'] do
   content <<-UNIT
     [Unit]
     Description=Fluent Bit
@@ -81,14 +41,19 @@ systemd_unit 'fluent-bit.service' do
 
     [Service]
     Type=simple
-    ExecStart=#{node['fluentbit']['install_dir']}/fluent-bit --config #{node['fluentbit']['conf_dir']}/fluent-bit.conf
+    ExecStart=#{node['fluentbit']['install_dir']}/#{node['fluentbit']['service_name']} --config #{node['fluentbit']['conf_dir']}/#{node['fluentbit']['service_name']}.conf
     Restart=always
 
     [Install]
     WantedBy=multi-user.target
   UNIT
 
-  action %i(create enable)
-  notifies :restart, 'systemd_unit[fluent-bit.service]'
+  action :create
+  only_if { node['fluentbit']['install_mode'] == 'source' && node['init_package'] == 'systemd' } # XXX: skip with Docker
+  notifies :restart, "service[#{node['fluentbit']['service_name']}]"
+end
+
+service node['fluentbit']['service_name'] do
+  action :nothing
   only_if { node['init_package'] == 'systemd' } # XXX: skip with Docker
 end
