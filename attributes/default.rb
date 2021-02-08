@@ -13,17 +13,10 @@ default['fluentbit']['cmake_flags'] = '-DFLB_IN_HTTP=no' # https://github.com/fl
 
 default['fluentbit']['install_mode'] = 'package'
 
-if node['fluentbit']['install_mode'] == 'package'
-  default['fluentbit']['install_dir'] = '/opt/td-agent-bit/bin'
-  default['fluentbit']['service_name'] = 'td-agent-bit'
-  default['fluentbit']['conf_dir'] = '/etc/td-agent-bit'
-  default['fluentbit']['lib_dir'] = '/lib/td-agent-bit'
-else
-  default['fluentbit']['install_dir'] = '/usr/local/bin'
-  default['fluentbit']['service_name'] = 'fluent-bit'
-  default['fluentbit']['conf_dir'] = '/etc/fluent-bit'
-  default['fluentbit']['lib_dir'] = '/var/lib/fluent-bit'
-end
+default['fluentbit']['install_dir'] = '/opt/td-agent-bit/bin'
+default['fluentbit']['service_name'] = 'td-agent-bit'
+default['fluentbit']['conf_dir'] = '/etc/td-agent-bit'
+default['fluentbit']['lib_dir'] = '/lib/td-agent-bit'
 
 default['fluentbit']['conf']['Flush'] = 5
 default['fluentbit']['conf']['Daemon'] = 'Off'

@@ -3,6 +3,11 @@
 # Recipe:: install_source
 #
 
+node.force_default['fluentbit']['install_dir'] = '/usr/local/bin'
+node.force_default['fluentbit']['service_name'] = 'fluent-bit'
+node.force_default['fluentbit']['conf_dir'] = '/etc/fluent-bit'
+node.force_default['fluentbit']['lib_dir'] = '/var/lib/fluent-bit'
+
 remote_file "#{Chef::Config[:file_cache_path]}/#{node['fluentbit']['archive']}" do
   source node['fluentbit']['url']
   checksum node['fluentbit']['checksum']

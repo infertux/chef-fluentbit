@@ -3,8 +3,7 @@
 # Recipe:: install
 #
 
-include_recipe "#{cookbook_name}::install_package" if node['fluentbit']['install_mode'] == 'package'
-include_recipe "#{cookbook_name}::install_source" if node['fluentbit']['install_mode'] == 'source'
+include_recipe "#{cookbook_name}::install_#{node['fluentbit']['install_mode']}"
 
 template "#{node['fluentbit']['conf_dir']}/#{node['fluentbit']['service_name']}.conf" do
   action :create_if_missing
@@ -32,7 +31,7 @@ template "#{node['fluentbit']['conf_dir']}/_service.conf" do
   notifies :restart, "service[#{node['fluentbit']['service_name']}]"
 end
 
-systemd_unit node['fluentbit']['service_name'] do
+systemd_unit "#{node['fluentbit']['service_name']}.service" do
   content <<-UNIT
     [Unit]
     Description=Fluent Bit
@@ -48,8 +47,8 @@ systemd_unit node['fluentbit']['service_name'] do
     WantedBy=multi-user.target
   UNIT
 
-  action :create
-  only_if { node['fluentbit']['install_mode'] == 'source' && node['init_package'] == 'systemd' } # XXX: skip with Docker
+  action %w(create enable)
+  only_if { node['init_package'] == 'systemd' } # XXX: skip with Docker
   notifies :restart, "service[#{node['fluentbit']['service_name']}]"
 end
 
