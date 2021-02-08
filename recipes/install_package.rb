@@ -15,7 +15,7 @@ apt_repository 'fluentbit' do
 end
 
 package 'td-agent-bit' do
-  notifies :run, 'execute[Rename td-agent-bit dist config]', :immediate
+  notifies :run, 'execute[Rename td-agent-bit dist config]', :immediately
 end
 
 # Rename the dist config file that will get replaced by our own
