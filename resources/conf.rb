@@ -16,7 +16,7 @@ end
 def include_file(resource)
   case resource.type
   when :conf
-    "#{node['fluentbit']['conf_dir']}/fluent-bit.conf"
+    "#{node['fluentbit']['conf_dir']}/#{node['fluentbit']['service_name']}.conf"
   when :parser
     "#{node['fluentbit']['conf_dir']}/_service.conf"
   else raise
@@ -39,7 +39,7 @@ action :create do
     group 'root'
     mode '0400'
     content new_resource.content
-    notifies :restart, 'systemd_unit[fluent-bit.service]'
+    notifies :restart, "service[#{node['fluentbit']['service_name']}]"
   end
 
   line = include_line new_resource
@@ -50,14 +50,14 @@ action :create do
     group 'root'
     not_if "grep -E '^#{line}' #{file}"
     command "echo '#{line}' >> #{file}"
-    notifies :restart, 'systemd_unit[fluent-bit.service]'
+    notifies :restart, "service[#{node['fluentbit']['service_name']}]"
   end
 end
 
 action :delete do
   file conf_file(new_resource) do
     action :delete
-    notifies :restart, 'systemd_unit[fluent-bit.service]'
+    notifies :restart, "service[#{node['fluentbit']['service_name']}]"
   end
 
   ruby_block "delete #{include_line new_resource}" do

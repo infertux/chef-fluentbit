@@ -8,14 +8,14 @@ file "#{node['fluentbit']['conf_dir']}/cert.pem" do
   group 'root'
   mode '0400'
   content node['fluentbit']['forward'].fetch('cert')
-  notifies :restart, 'systemd_unit[fluent-bit.service]'
+  notifies :restart, "service[#{node['fluentbit']['service_name']}]"
 end
 
-directory '/var/lib/fluent-bit' do
+directory node['fluentbit']['lib_dir'] do
   owner 'root'
   group 'root'
   mode '0755'
-  notifies :restart, 'systemd_unit[fluent-bit.service]'
+  notifies :restart, "service[#{node['fluentbit']['service_name']}]"
 end
 
 fluentbit_conf 'forward' do

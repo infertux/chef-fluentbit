@@ -6,6 +6,13 @@
 
 The recipe `fluentbit::default` installs [Fluent Bit](http://fluentbit.io).
 
+You can select whether to install the binary packages provided by Treasure Data (TD Agent bit) or compile Fluent Bit from source.
+
+```ruby
+override['fluentbit']['install_mode'] = 'package' # the default
+override['fluentbit']['install_mode'] = 'source' # build from source code
+```
+
 You can add custom configuration with the `fluentbit_conf` helper:
 
 ```ruby
