@@ -1,4 +1,4 @@
-name 'fluentbit'
+name             'fluentbit'
 maintainer       'Cédric Félizard'
 maintainer_email 'cedric@felizard.fr'
 license          'MIT'
@@ -6,7 +6,7 @@ description      'Installs and configures Fluent Bit'
 source_url       'https://github.com/infertux/chef-fluentbit'
 issues_url       'https://github.com/infertux/chef-fluentbit/issues'
 
-version          '1.4.2'
+version          '1.6.10'
 chef_version     '>= 14.0'
 
 supports 'debian'
