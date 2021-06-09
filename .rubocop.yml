@@ -1,0 +1,2 @@
+Chef/Deprecations/ResourceWithoutUnifiedTrue:
+  Enabled: false
